@@ -73,7 +73,7 @@ app.post('/notification', function (req, res) {
 app.post('/confirm', function (req, res) {
     var data = req.body;
 
-    var string = `partnerCode=${data.partnerCode}&partnerRefId=${data.partnerRefId}&requestType=${data.requestType}&momoTransId=${data.momoTransId}&requestId=${data.requestId}`
+    var string = `partnerCode=${process.env.MERCHANT_ID}&partnerRefId=${data.partnerRefId}&requestType=${data.requestType}&momoTransId=${data.momoTransId}&requestId=${data.requestId}`
     var signature = crypto.createHmac('sha256', process.env.SECRET_KEY).update(string).digest('hex');
 
     var body = {
