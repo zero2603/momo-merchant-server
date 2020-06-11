@@ -4,6 +4,7 @@ var cors = require('cors');
 var request = require('request-promise');
 const NodeRSA = require('node-rsa');
 const crypto = require('crypto');
+var CronJob = require('cron').CronJob;
 var dotenv = require('dotenv');
 dotenv.config({ path: './.env' });
 
@@ -102,5 +103,11 @@ app.get('/', function (req, res) {
     res.send("Welcome to Momo Merchant Server!");
 });
 
+var job = new CronJob('* */15 * * * *', function () {
+    return request('https://secret-taiga-14580.herokuapp.com/').then(data => {
+        console.log(data)
+    })
+}, null, true, 'America/Los_Angeles');
+job.start();
 
 app.listen(process.env.PORT || 3000, () => console.log('Momo Merchant Server is running!'));
